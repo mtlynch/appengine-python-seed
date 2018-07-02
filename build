@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+# Build steps to validate the IsItKeto web app.
+
+# Exit build script on first failure
+set -e
+
+# Echo commands to stdout.
+set -x
+
+# Delete pyc files from previous builds.
+find . -name "*.pyc" -delete
+
+# Run unit tests and calculate code coverage.
+coverage run \
+  --source app \
+  -m unittest discover
+
+# Check that source has correct formatting.
+yapf --diff --recursive --style google ./ --exclude=third_party/*
+
+# Run static analysis for Python bugs/cruft.
+pyflakes app/*.py tests/*.py
+
+# Run custom linters
+LINTER_PATHS="$(pwd)/third_party/docstringchecker"
+LINTER_PATHS+=":$(pwd)/third_party/line_length_linter"
+PYTHONPATH="${PYTHONPATH}:${LINTER_PATHS}" \
+  pylint --reports=n --rcfile=.pylintrc "$SOURCE_DIR" "$TEST_DIR"

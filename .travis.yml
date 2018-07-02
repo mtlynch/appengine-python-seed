@@ -1,0 +1,16 @@
+sudo: required
+services:
+  - docker
+dist: trusty
+language: python
+python:
+- "2.7"
+notifications:
+  email: false
+script: ./docker_build
+after_success:
+  - pip install pyyaml coveralls
+  # Fix paths in .coverage so they match Coveralls' expectations of Travis'
+  # paths.
+  - sed -i "s@\"/app/@\"${PWD}/@g" .coverage
+  - coveralls
