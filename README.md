@@ -5,3 +5,7 @@
 ## Overview
 
 Boilerplate code for a Flask AppEngine app.
+
+## Testing
+
+To test, run `./docker_build`.
