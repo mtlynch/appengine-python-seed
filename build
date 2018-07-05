@@ -8,19 +8,25 @@ set -e
 # Echo commands to stdout.
 set -x
 
+# Location of app source files.
+SOURCE_DIR=app
+
+# Location of unit tests.
+TEST_DIR=tests
+
 # Delete pyc files from previous builds.
 find . -name "*.pyc" -delete
 
 # Run unit tests and calculate code coverage.
 coverage run \
-  --source app \
-  -m unittest discover
+  --source "$SOURCE_DIR" \
+  -m unittest discover "$TEST_DIR"
 
 # Check that source has correct formatting.
-yapf --diff --recursive --style google ./ --exclude=third_party/*
+yapf --diff --recursive --style google ./ --exclude "third_party/*"
 
 # Run static analysis for Python bugs/cruft.
-pyflakes app/*.py tests/*.py
+pyflakes ${SOURCE_DIR}/*.py ${TEST_DIR}/*.py
 
 # Run custom linters
 LINTER_PATHS="$(pwd)/third_party/docstringchecker"
