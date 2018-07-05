@@ -22,7 +22,7 @@ class MainTest(unittest.TestCase):
     def tearDown(self):
         self.testbed.deactivate()
 
-    def test_parse_ingredients_responds_successfully(self):
+    def test_hello_endpoint_responds_with_hello_world(self):
         response = self.app_client.get('/hello')
 
         self.assertEqual(200, response.status_code)
