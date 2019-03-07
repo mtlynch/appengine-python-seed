@@ -9,3 +9,12 @@ Boilerplate code for a Flask AppEngine app.
 ## Testing
 
 To test, run `./docker_build`.
+
+## Launch dev server
+
+```bash
+./start_dev_server
+```
+
+* App will serve on http://localhost:8080
+* Admin interface will serve on http://localhost:8080
